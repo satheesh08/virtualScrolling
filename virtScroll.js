@@ -1,0 +1,147 @@
+import { LightningElement, track, api } from 'lwc';
+
+export default class VirtScroll extends LightningElement {
+
+
+    @track alldata = [];
+    @track viewHeight = 500;
+    @track rowheight = 40;
+    //const a;
+    @track visibledata = [];
+    @track offsetY = 0;
+
+    totalHeight=0;
+    
+    alldataLength = 0;
+
+    visibleRowCount = 0;
+    startRowIndex = 0;
+
+    bufferRowCount = 5;
+
+    // connectedCallback() {
+    //     // Since getData() is an async method, 
+    //     // it is difficult to get data at this time.
+
+    // }
+
+    // @api 
+    // get mydata() {
+    //     return this._alldata;
+    // }
+
+    // set mydata(value) {
+    //     this.init(value);
+    //     console.log('Set Called');
+    // }
+
+    // init(data) {
+    //     this._alldata = data.map((row, index) => {
+    //         let refObj = Object.assign({}, row);
+    //         refObj.index = index;
+    //         refObj.checked = false;
+    //         return refObj;
+    //     });
+
+    //     this.alldataLength = this._alldata.length;
+    //     console.log('All Data Length'+this.alldataLength);
+    //     this.totalHeight = this.alldataLength * this.rowheight;
+
+    //     this.calcVisibleData(true);
+    // }
+
+
+    scrollHandler() {
+        this.calcVisibleData(false);
+    }
+
+    calcVisibleData(firstTime) {
+        if(firstTime === false) {
+            const scrollTop = this.getScrollTop();
+            const lastIndex = this.startRowIndex;
+            this.startRowIndex = Math.floor(scrollTop / this.rowheight) - this.bufferRowCount;
+            this.startRowIndex = Math.max(0, this.startRowIndex);
+
+            if(lastIndex === this.startRowIndex) return;
+        }
+
+        console.log('VW'+this.viewHeight);
+        console.log('RW'+this.rowheight);
+        console.log('BW'+this.bufferRowCount);
+        this.visibleRowCount = Math.ceil(this.viewHeight / this.rowheight) + 2 * this.bufferRowCount;
+        console.log('VRC1'+this.visibleRowCount);
+        this.visibleRowCount = Math.min(this.alldata.length - this.startRowIndex, this.visibleRowCount);
+        console.log('VRC2'+this.visibleRowCount);
+        console.log('DL'+this.alldataLength);
+
+        this.offsetY = this.startRowIndex * this.rowheight;
+        this.visibledata = this.getVisibleData();
+        console.log('VIS'+this.visibledata);
+    }
+
+    getVisibleData() {
+        let endIndex = this.startRowIndex + this.visibleRowCount;
+        console.log('SRI'+this.startRowIndex);
+        console.log('VRC'+this.visibleRowCount);
+        return this.alldata.slice(this.startRowIndex, endIndex);
+    }
+
+    getScrollTop() {
+        const element = this.template.querySelector('.viewport');
+        return element.scrollTop;
+    }
+
+    get transformStyle() {
+        return `
+            transform: translateY(${this.offsetY}px);
+        `;
+    }
+    
+    get rowStyle() {
+        return `
+            height: ${this.rowheight}px;
+            background-color:beige;
+        `;
+      }
+
+    get contentStyle() {
+        return `
+            height: ${this.totalHeight}px;
+        `;
+    }
+
+    get viewportStyle() {
+        return `
+            max-height: ${this.viewHeight}px; 
+            overflow: auto;
+            height:auto;
+        `;
+    }
+
+
+
+
+     async connectedCallback() {
+        this.alldata = await this.getData({ amountOfRecords: 100000 });
+        console.log('a'+this.alldata);
+        this.alldataLength = this.alldata.length;
+        console.log('All Data Length'+this.alldataLength);
+        console.log('RH'+this.rowheight);
+        this.totalHeight = this.alldataLength * this.rowheight;
+
+        this.calcVisibleData(true);
+    }
+
+    @api 
+    getData({ amountOfRecords }) {
+        const response = [];
+        for(let index = 1; index < amountOfRecords; index++) {
+            response.push({
+                id: index, 
+                name: `dummy${index}`, 
+                email: `dummy${index}@xxx.yyy`
+            });
+        }
+        return response;
+    }
+}

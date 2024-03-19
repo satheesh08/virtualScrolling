@@ -1,0 +1,20 @@
+<template>
+    <div style="top: auto;position: relative;height: 300px;width: 2000px;">
+    <div class="viewport" style={viewportStyle} onscroll={scrollHandler}>    
+        <div class="content" style={contentStyle}>
+            <div class="offset-for-visible-rows" style={transformStyle}>
+                <template for:each={visibledata} for:item='row' for:index="idx">
+                    <div class="child-row slds-border_bottom" style={rowStyle} key={Id}>
+                    <div class="child-cell" style="flex: 0 0 5%" key={Id}>
+                        <input type="checkbox" onchange={handleChange} value={row.checked} checked={row.checked}/>
+                    </div>
+                    <div class="child-cell" style="flex: 0 0 5%" key={Id}>
+                        <p class="">{row.index}&nbsp;&nbsp;&nbsp;&nbsp;{row.name}&nbsp;&nbsp;&nbsp;&nbsp;{row.email}</p>
+                    </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+    </div>
+</template>
