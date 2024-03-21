@@ -1,6 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 
-export default class VirtualScrolling extends LightningElement {
+export default class VirtScroll extends LightningElement {
 
     @track alldata = [];
     @track viewHeight = 500;
