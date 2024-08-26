@@ -28,4 +28,4 @@ You can configure the virtual scrolling behavior by adjusting the following attr
 Please note that this project is a basic demonstration and can be customized further to meet specific requirements.
 
 # Credits
-This project was developed as a basic example to showcase the implementation of virtual scrolling in Salesforce Lightning Web Components.
+This project was created as a basic example to demonstrate the implementation of virtual scrolling in Salesforce Lightning Web Components. It draws inspiration from the GitHub repository [lwc-virtual-scroll-sample](https://github.com/skysan87/lwc-virtual-scroll-sample). I simplified the original example by consolidating it into a single Lightning Web Component.
