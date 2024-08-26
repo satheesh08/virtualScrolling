@@ -1,6 +1,6 @@
 
 # Virtual Scrolling with Lightning Web Components (LWC)
-This project provides a basic implementation of virtual scrolling in a Lightning Web Component (LWC) using a single component. Virtual scrolling optimizes the performance of web applications working with large datasets by rendering only the visible portion of the data, reducing initial load time, and improving user experience.4
+This project provides a basic implementation of virtual scrolling in a Lightning Web Component (LWC) using a single component. Virtual scrolling optimizes the performance of web applications working with large datasets by rendering only the visible portion of the data, reducing initial load time, and improving user experience.
 
 # Inspired from:
 - https://github.com/skysan87/lwc-virtual-scroll-sample
